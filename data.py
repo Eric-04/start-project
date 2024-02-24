@@ -62,10 +62,6 @@ def generate_data():
                 dataset.append(image)
                 labels.append((shape, texture))
 
-    # Convert lists to arrays
-    dataset = np.array(dataset)
-    labels = np.array(labels)
-
     return dataset, labels
 
 # dataset, labels = generate_data()
