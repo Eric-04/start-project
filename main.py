@@ -1,7 +1,7 @@
 from data import generate_data
 from preprocess import preprocess_data
 import numpy as np
-from model import model
+from model2 import model
 import tensorflow as tf
 
 if __name__ == "__main__":
@@ -17,7 +17,7 @@ if __name__ == "__main__":
                 metrics=['accuracy'])
 
     # Train model
-    model.fit(np.array(train_inputs), np.array(train_labels), epochs=5, batch_size=32, validation_split=0.2)
+    model.fit(np.array(train_inputs), np.array(train_labels), epochs=200, batch_size=720, validation_split=0.2)
 
     # Evaluate model
     test_loss, test_acc = model.evaluate(np.array(test_inputs), np.array(test_labels))
