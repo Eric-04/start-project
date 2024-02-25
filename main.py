@@ -25,7 +25,7 @@ if __name__ == "__main__":
         metrics=['categorical_accuracy'])
 
     # Train model
-    model.fit(np.array(train_inputs), np.array(train_labels), epochs=200, batch_size=len(train_inputs), validation_split=0.2)
+    model.fit(np.array(train_inputs), np.array(train_labels), epochs=50, batch_size=len(train_inputs), validation_split=0.2)
 
     # Evaluate model
     test_loss, test_acc = model.evaluate(np.array(test_inputs), np.array(test_labels))

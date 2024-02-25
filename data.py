@@ -1,10 +1,11 @@
 import numpy as np
 from skimage.transform import AffineTransform, warp
+from additional_texture import fragment_texture, spiral_texture
 
 # Parameters
 num_samples_per_class = 100
 image_size = 28
-textures = ['smooth', 'rough', 'checkerboard']
+textures = ['smooth', 'rough', 'checkerboard', 'fragment', 'spiral']
 
 # Function to generate textures
 def generate_texture(texture_type):
@@ -15,6 +16,11 @@ def generate_texture(texture_type):
     elif texture_type == 'checkerboard':
         checkerboard = np.indices((image_size, image_size)).sum(axis=0) % 2
         return checkerboard
+    elif texture_type == 'fragment':
+        return fragment_texture(image_size)
+    elif texture_type == 'spiral':
+        return spiral_texture(image_size)
+
     
 def apply_random_transformation(image):
     rotation_angle = np.deg2rad(np.random.randint(-45, 45))
