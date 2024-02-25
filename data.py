@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from skimage.transform import AffineTransform, warp
 
 # Parameters
@@ -37,9 +36,13 @@ def apply_random_transformation(image):
     scale_factor = np.random.uniform(0.5, 1.5)
 
     # Define the affine transformation matrix
-    matrix = np.array([[np.cos(rotation_angle) * scale_factor, -np.sin(rotation_angle), -image_size*0.25],
-                    [np.sin(rotation_angle), np.cos(rotation_angle) * scale_factor, -image_size*0.25],
+    matrix = np.array([[np.cos(rotation_angle) * scale_factor, -np.sin(rotation_angle), 0],
+                    [np.sin(rotation_angle), np.cos(rotation_angle) * scale_factor, 0],
                     [0, 0, 1]])
+    
+    # matrix = np.array([[scale_factor, 1, 0],
+    #                 [1, scale_factor, 0],
+    #                 [0, 0, 1]])
 
     # Create an AffineTransform object
     affine_transform = AffineTransform(matrix=matrix)
@@ -57,24 +60,9 @@ def generate_data():
     for shape in shapes:
         for texture in textures:
             for _ in range(num_samples_per_class):
-                image = generate_shape(shape) * generate_texture(texture)
-                image = apply_random_transformation(image)
+                image = generate_texture(texture)
+                # image = apply_random_transformation(image)
                 dataset.append(image)
-                labels.append((shape, texture))
+                labels.append((texture))
 
     return dataset, labels
-
-# dataset, labels = generate_data()
-# # Visualize a few samples
-# fig, axes = plt.subplots(len(shapes), len(textures), figsize=(10, 10))
-
-# for i, shape in enumerate(shapes):
-#     for j, texture in enumerate(textures):
-#         index = np.where((labels[:, 0] == shape) & (labels[:, 1] == texture))[0][0]
-#         axes[i, j].imshow(dataset[index], cmap='gray')
-#         axes[i, j].set_title(f'{shape} - {texture}')
-#         axes[i, j].axis('off')
-
-# plt.tight_layout()
-# plt.show()
-
