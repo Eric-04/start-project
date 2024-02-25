@@ -4,6 +4,7 @@ import numpy as np
 from model_dense import DenseNet
 from model import create_model
 import tensorflow as tf
+from visualize import visualize_metrics
 
 if __name__ == "__main__":
 
@@ -25,8 +26,10 @@ if __name__ == "__main__":
         metrics=['categorical_accuracy'])
 
     # Train model
-    model.fit(np.array(train_inputs), np.array(train_labels), epochs=50, batch_size=len(train_inputs), validation_split=0.2)
+    train_model = model.fit(np.array(train_inputs), np.array(train_labels), epochs=50, batch_size=len(train_inputs), validation_split=0.2)
 
     # Evaluate model
     test_loss, test_acc = model.evaluate(np.array(test_inputs), np.array(test_labels))
     print('Test accuracy:', test_acc)
+
+    visualize_metrics(train_model.history)
