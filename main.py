@@ -1,8 +1,8 @@
 from data import generate_data
 from preprocess import preprocess_data
 import numpy as np
-from model import DenseNet
-from model_filter import create_base_model
+from model_dense import DenseNet
+from model import create_model
 import tensorflow as tf
 
 if __name__ == "__main__":
@@ -15,14 +15,12 @@ if __name__ == "__main__":
     input_shape = (image_size, image_size)  # Adjusted input shape
     num_classes = len(train_labels[0])  # Adjusted number of classes
 
-
-    model = create_base_model(input_shape, num_classes)
     # model = DenseNet(input_shape, num_classes=num_classes)
+    model = create_model(input_shape, num_classes=num_classes)
     print(model.summary())
 
     model.compile(
-        # optimizer=tf.keras.optimizers.Adadelta(learning_rate=1e-3, ),
-        optimizer=tf.keras.optimizers.Adam(learning_rate=1e-6, amsgrad=True, ),
+        optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3, amsgrad=True, ),
         loss='categorical_crossentropy',
         metrics=['categorical_accuracy'])
 

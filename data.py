@@ -4,22 +4,7 @@ from skimage.transform import AffineTransform, warp
 # Parameters
 num_samples_per_class = 100
 image_size = 28
-shapes = ['square', 'circle', 'triangle']
 textures = ['smooth', 'rough', 'checkerboard']
-
-# Function to generate shapes
-def generate_shape(shape_type):
-    if shape_type == 'square':
-        return np.ones((image_size, image_size))
-    elif shape_type == 'circle':
-        x, y = np.indices((image_size, image_size))
-        return ((x - image_size/2)**2 + (y - image_size/2)**2) <= (image_size/2)**2
-    elif shape_type == 'triangle':
-        triangle = np.zeros((image_size, image_size))
-        triangle[-1, :] = 1
-        for i in range(image_size):
-            triangle[i, i:] = 1
-        return triangle
 
 # Function to generate textures
 def generate_texture(texture_type):
@@ -39,10 +24,6 @@ def apply_random_transformation(image):
     matrix = np.array([[np.cos(rotation_angle) * scale_factor, -np.sin(rotation_angle), 0],
                     [np.sin(rotation_angle), np.cos(rotation_angle) * scale_factor, 0],
                     [0, 0, 1]])
-    
-    # matrix = np.array([[scale_factor, 1, 0],
-    #                 [1, scale_factor, 0],
-    #                 [0, 0, 1]])
 
     # Create an AffineTransform object
     affine_transform = AffineTransform(matrix=matrix)
@@ -57,11 +38,11 @@ def generate_data():
     dataset = []
     labels = []
 
-    for shape in shapes:
+    for _ in range(3):
         for texture in textures:
             for _ in range(num_samples_per_class):
                 image = generate_texture(texture)
-                # image = apply_random_transformation(image)
+                image = apply_random_transformation(image)
                 dataset.append(image)
                 labels.append((texture))
 
